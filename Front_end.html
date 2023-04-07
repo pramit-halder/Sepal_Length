@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Predict Sepal Length</title>
+  <style>
+    /* Style the form */
+    form {
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    /* Style the input field */
+    input[type="number"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #694949;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    /* Style the submit button */
+    .submit {
+      background-color: #cb6307;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Style the result placeholder */
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="float-form">
+    <label for="float-input">Enter the petal length:</label>
+    <input type="number" id="float-input" step="0.01" placeholder="0.00" required>
+    <button type="submit" class="submit">Submit</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const form = document.getElementById('float-form');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const floatValue = parseFloat(document.getElementById('float-input').value);
+
+      // fetch('http://localhost:5000/model', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ "x": floatValue })
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     const resultFloat = parseFloat(data);
+      //     resultDiv.textContent = `Result: ${resultFloat.toFixed(2)}`;
+      //   })
+      //   .catch(error => console.error(error));
+
+      axios.post('http://localhost:5000/model', { "x": floatValue }).then((response) => {
+        const fres = parseFloat(response.data);
+        resultDiv.textContent = `Sepal Length : ${fres.toFixed(2)}`;
+      }).catch(error => console.error(error));
+
+
+    })
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"
+    integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
