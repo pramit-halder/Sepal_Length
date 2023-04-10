@@ -8,6 +8,11 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+@app.route("/", methods=["GET"])
+@cross_origin()
+def get():
+    return "hello"
+
 @app.route("/model", methods=["POST"])
 @cross_origin()
 def slr():
